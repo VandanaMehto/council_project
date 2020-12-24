@@ -1,19 +1,9 @@
-var knex = require('knex')({
-    client: 'mysql',
-    connection: {
-        host: 'localhost',
-        user: 'root',
-        password: 'navgurukul',
-        database: 'councilMember'
-    }
-});
-
-module.exports = knex;
+const knex = require('./knex_connection')
 
 knex.schema.hasTable('training_and_placementCoordinator').then((exists) => {
     if(!exists){
         return knex.schema.createTable('training_and_placementCoordinator', (table) => {
-            table.increments('Id'),
+            table.increments('Id').primary()
             table.string('Name'),
             table.string('Agenda'),
             table.string('Mentor'),
@@ -23,8 +13,9 @@ knex.schema.hasTable('training_and_placementCoordinator').then((exists) => {
             table.string('EnglishProblem')
         })
         .catch((err) => {
-            console.log(err, 'There is some err while writing the query')
+            console.log(err)
         })
     }
-    return console.log('Table is created.....');
+    return console.log('table has created...')
+
 })
